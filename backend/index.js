@@ -1,8 +1,9 @@
 const express = require("express");
 const mainRouter = require("./routes/index");
 const colors = require("colors");
-require("dotenv").config({ path: "../.env" }); // Adjust the path as needed
-const cors = reequire("cors");
+require("dotenv").config({ path: "../.env" }); // Adjust the path as necessary
+// Adjust the path as needed
+const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());

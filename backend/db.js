@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config({ path: "../.env" });
+console.log("MongoDB URI:", process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI);
+try {
+  mongoose.connect(process.env.MONGO_URI);
+} catch (err) {
+  console.log(err);
+}
 
 const UserSchema = new mongoose.Schema(
   {
