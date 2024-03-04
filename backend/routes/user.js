@@ -4,6 +4,8 @@ const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const User = require("../db");
+const bcrypt = require("bcrypt");
+const authMiddleware = require("../authMiddleware");
 
 const signupbody = zod.object({
   userName: zod.string().email(),
@@ -32,11 +34,13 @@ router.post("/signup", async (req, res) => {
       });
     }
 
+    let hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const password = hashedPassword;
     const user = await User.create({
       userName: req.body.userName,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      password: req.body.password,
+      password: password,
     });
 
     const userid = user._id;
@@ -60,6 +64,7 @@ const signinbody = zod.object({
   userName: zod.string().email(),
   password: zod.string(),
 });
+
 router.post("/signin", async (req, res) => {
   try {
     const { success } = signinbody.safeParse(req.body);
@@ -83,13 +88,36 @@ router.post("/signin", async (req, res) => {
       });
       return;
     }
-
+    console.log(token);
     res.json({
       msg: "Error",
     });
   } catch (err) {
     console.log(err);
   }
+});
+
+const updatebody = zod.object({
+  password: zod.string(),
+  firstName: zod.string(),
+  lastName: zod.string(),
+});
+
+router.put("/", authMiddleware, async (req, res) => {
+  const { success } = updatebody.safeParse(req.body);
+
+  console.log(success);
+  if (!success) {
+    return res.status(403).json({
+      msg: "no inputs bro",
+    });
+  }
+
+  await User.updateOne({ _id: req.userId }, req.body);
+
+  res.json({
+    msg: "Updated Succesfully",
+  });
 });
 
 module.exports = router;
