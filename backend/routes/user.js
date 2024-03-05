@@ -70,12 +70,21 @@ router.post("/signin", async (req, res) => {
     const { success } = signinbody.safeParse(req.body);
     console.log(success);
 
-    const foundUser = await User.findOne({
-      userName: req.body.userName,
-      password: req.body.password,
-    });
+    const { userName, password } = req.body;
 
-    if (foundUser) {
+    const foundUser = await User.findOne({ userName });
+    console.log(foundUser);
+
+    if (!foundUser) {
+      return res.status(403).json({
+        msg: "Wrong Inputs or password ",
+      });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, foundUser.password);
+    console.log(passwordMatch);
+
+    if (passwordMatch) {
       const token = jwt.sign(
         {
           userId: foundUser._id,
@@ -83,15 +92,14 @@ router.post("/signin", async (req, res) => {
         JWT_SECRET
       );
 
-      res.json({
+      return res.json({
         token: token,
       });
-      return;
+    } else {
+      res.json({
+        msg: "Incorrect password or Username",
+      });
     }
-    console.log(token);
-    res.json({
-      msg: "Error",
-    });
   } catch (err) {
     console.log(err);
   }
