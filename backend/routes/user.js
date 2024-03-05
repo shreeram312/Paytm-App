@@ -3,7 +3,7 @@ const router = express.Router();
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
-const User = require("../db");
+const { User, Account } = require("../db");
 const bcrypt = require("bcrypt");
 const authMiddleware = require("../authMiddleware");
 
@@ -136,7 +136,7 @@ router.get("/bulk", async (req, res) => {
   });
 
   res.json({
-    user: users.map((user) => ({
+    users: users.map((user) => ({
       userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
