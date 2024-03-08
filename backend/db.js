@@ -31,24 +31,22 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const accountSchema = new mongoose.Schema(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-
-    balance: {
-      type: Number,
-      required: true,
-    },
+const accountSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId, // Reference to User model
+    ref: "User",
+    required: true,
   },
-  { timestamps: true }
-);
+  balance: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
 
 const User = new mongoose.model("User", UserSchema);
 const Account = new mongoose.model("Account", accountSchema);
+console.log(Account);
 
 module.exports = {
   User,

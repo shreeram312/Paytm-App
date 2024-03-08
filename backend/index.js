@@ -10,10 +10,6 @@ app.use(cors());
 
 app.use("/api/v1", mainRouter);
 
-app.get("/", function (req, res) {
-  res.send("hi");
-});
-
 app.listen(process.env.PORT, function () {
   console.log(`Port is running on ${process.env.PORT}`);
 });

@@ -6,7 +6,7 @@ const authMiddleware = (req, res, next) => {
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {
     res.status(403).json({
-      msg: "Nope bro",
+      msg: "No JWT",
     });
   }
 
@@ -17,6 +17,8 @@ const authMiddleware = (req, res, next) => {
     console.log(decoded);
     if (decoded.userId) {
       req.userId = decoded.userId;
+      console.log(req.userId);
+      console.log("hi");
       next();
     } else {
       res.json({
