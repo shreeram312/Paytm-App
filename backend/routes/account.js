@@ -27,6 +27,12 @@ router.post("/transfer", authMiddleware, async (req, res) => {
   session.startTransaction();
 
   const { amount, to } = req.body;
+  if (req.userId == to) {
+    return res.json({
+      msg: "Not possible bro coz u are same",
+    });
+  }
+
   const account = await Account.findOne({ userId: req.userId }).session(
     session
   );
@@ -70,6 +76,11 @@ router.post("/transfer", authMiddleware, async (req, res) => {
   ).session(session);
 
   await session.commitTransaction();
+  if (req.userId == to) {
+    res.json({
+      msg: "Not possible bro coz u are same",
+    });
+  }
   res.json({
     msg: "Transfer Successfull",
   });

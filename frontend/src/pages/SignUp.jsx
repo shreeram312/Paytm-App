@@ -5,13 +5,14 @@ import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
   const [firstName, setFirstName] = useState("Shreeram Mutukundu");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="bg-slate-300 sm:h-screen md:h-screen h-screen  flex justify-center">
@@ -60,7 +61,9 @@ export const SignUp = () => {
                     password,
                   }
                 );
+
                 localStorage.setItem("token", response.data.token);
+                navigate("/dashboard");
               }}
               label={"Sign Up"}
             />
