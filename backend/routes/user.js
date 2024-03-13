@@ -43,6 +43,8 @@ router.post("/signup", async (req, res) => {
       password: password,
     });
 
+    console.log(user);
+
     const userId = user._id;
 
     await Account.create({
