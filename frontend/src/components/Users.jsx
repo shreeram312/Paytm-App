@@ -10,14 +10,23 @@ export const Users = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(
-        "http://localhost:3000/api/v1/user/bulk?filter=" + filter.toUpperCase()
-      )
-      .then((response) => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/user/bulk?filter=${filter}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
         console.log(response.data.users);
         setUsers(response.data.users);
-      });
+      } catch (error) {
+        // Handle error if the request fails
+        console.error("Error fetching data:", error);
+      }
+    })();
   }, [filter]);
 
   return (
@@ -27,6 +36,7 @@ export const Users = () => {
         <input
           onChange={(e) => {
             setFilter(e.target.value);
+            console.log(filter);
           }}
           type="text"
           placeholder="Search users..."
