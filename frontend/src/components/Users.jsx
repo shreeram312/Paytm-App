@@ -13,7 +13,7 @@ export const Users = () => {
     (async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/user/bulk?filter=${filter}`,
+          `https://paytm-app-4r9t.onrender.com/api/v1/user/bulk?filter=${filter}`,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
