@@ -23,7 +23,6 @@ export const Users = () => {
         console.log(response.data.users);
         setUsers(response.data.users);
       } catch (error) {
-        // Handle error if the request fails
         console.error("Error fetching data:", error);
       }
     })();

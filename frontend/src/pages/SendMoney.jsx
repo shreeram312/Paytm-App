@@ -1,10 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
 export const SendMoney = () => {
   const [searchParams] = useSearchParams();
   const [amount, setAmount] = useState("");
+  const navigate = useNavigate();
   const id = searchParams.get("id");
   const name = searchParams.get("name");
 
@@ -57,6 +58,9 @@ export const SendMoney = () => {
                       },
                     }
                   );
+
+                  alert("Money has been Sent ");
+                  navigate("/dashboard");
                 }}
                 className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
               >
