@@ -45,6 +45,12 @@ export const Signin = () => {
                       password,
                     }
                   );
+
+                  if (!localStorage.getItem("token")) {
+                    console.log("sdjjr");
+                    return;
+                  }
+
                   localStorage.setItem("token", response.data.token);
                   const token = localStorage.getItem("token");
                   const anstoken = response.data.token;
@@ -52,9 +58,12 @@ export const Signin = () => {
                   if (token === anstoken) {
                     navigate("/dashboard");
                   } else {
+                    console.log("dij");
                     navigate("/signup");
                   }
                 } catch (error) {
+                  alert("Didn't Signed Up so Signup first");
+                  navigate("/signup");
                   console.error("Error occurred:", error);
                 }
               }}
