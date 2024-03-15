@@ -45,22 +45,30 @@ export const SendMoney = () => {
               </div>
               <button
                 onClick={async () => {
-                  const response = await axios.post(
-                    "https://paytm-app-4r9t.onrender.com/api/v1/account/transfer",
-                    {
-                      to: id,
-                      amount,
-                    },
-                    {
-                      headers: {
-                        Authorization:
-                          "Bearer " + localStorage.getItem("token"),
+                  const response = await axios
+                    .post(
+                      "https://paytm-app-4r9t.onrender.com/api/v1/account/transfer",
+                      {
+                        to: id,
+                        amount,
                       },
-                    }
-                  );
+                      {
+                        headers: {
+                          Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        },
+                      }
+                    )
 
-                  alert("Money has been Sent ");
-                  navigate("/dashboard");
+                    .catch((err) => {
+                      alert("Sry!! You Dont have enough Money ");
+                    });
+
+                  if (response) {
+                    await alert("Money has been Sent ");
+                    console.log(response.data.account);
+                    navigate("/dashboard");
+                  }
                 }}
                 className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
               >

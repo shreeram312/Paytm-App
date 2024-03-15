@@ -85,7 +85,7 @@ router.post("/signin", async (req, res) => {
 
     if (!foundUser) {
       return res.status(403).json({
-        msg: "Wrong Inputs or password ",
+        msg: "User not in Db Signup first",
       });
     }
 

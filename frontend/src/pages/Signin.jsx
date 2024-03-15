@@ -37,25 +37,25 @@ export const Signin = () => {
             User User
             <Button
               onClick={async () => {
-                try {
-                  const response = await axios.post(
-                    "https://paytm-app-4r9t.onrender.com/api/v1/user/signin",
-                    {
-                      userName: name,
-                      password,
-                    }
-                  );
-                  localStorage.setItem("token", response.data.token);
-                  const token = localStorage.getItem("token");
+                const response = await axios.post(
+                  "https://paytm-app-4r9t.onrender.com/api/v1/user/signin",
+                  {
+                    userName: name,
+                    password,
+                  }
+                );
+                if (response) {
                   const anstoken = response.data.token;
+                  localStorage.setItem("token", anstoken);
+                  const token = localStorage.getItem("token");
 
                   if (token === anstoken) {
                     navigate("/dashboard");
-                  } else {
-                    navigate("/signup");
                   }
-                } catch (error) {
-                  console.error("Error occurred:", error);
+
+                  if (token != anstoken) {
+                    alert("dsjdh");
+                  }
                 }
               }}
               label={"Sign In"}

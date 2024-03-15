@@ -62,8 +62,9 @@ export const SignUp = () => {
                   }
                 );
 
-                localStorage.setItem("token", response.data.token);
-                navigate("/signin");
+                if (response) {
+                  navigate("/signin");
+                }
               }}
               label={"Sign Up"}
             />
